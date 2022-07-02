@@ -12,7 +12,7 @@ CREATE TABLE Llotre.Users (
 
 CREATE TABLE Llotre.Task_Status (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    status INT NOT NULL);
+    status VARCHAR(45) NOT NULL);
 
 
 CREATE TABLE Llotre.Tasks (
@@ -37,10 +37,6 @@ INSERT INTO Llotre.Task_Status(status) VALUES
 ('Pronta');
 
 INSERT INTO Llotre.Tasks(user_id, title, task, createdAt, status_id) VALUES
-(2, 'Criar Slides', 'Criar slides para a apresentação de segunda-feira', Date Now(), 1),
-(3, 'Criar dinâmica', 'Elaborar uma dinâmica para a aula de terça-feira', Date Now(), 2),
-(4, 'Fazer café', 'Fazer um cafezão bolado pra turma do trabalho', Date Now(), 3),
-
-
-
-
+(2, 'Criar Slides', 'Criar slides para a apresentação de segunda-feira', NOW(), 1),
+(3, 'Criar dinâmica', 'Elaborar uma dinâmica para a aula de terça-feira', NOW(), 2),
+(4, 'Fazer café', 'Fazer um cafezão bolado pra turma do trabalho', NOW(), 3);
