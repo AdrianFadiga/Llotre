@@ -16,9 +16,7 @@ const validateToken = async (req: IRequestWithAdmin, res: Response, next: NextFu
         const decoded = jwt.verify(token, secret as string) as JwtPayload;
         const user = await userModel.getByEmail(decoded.data);
         if (!user.length) {
-            // Coloquei esta mensagem de erro para verificar o token;
-            // Retornar com a mensagem de erro do catch após o desenvolvimento do projeto;
-            return res.status(401).json({ message: 'User not found' });
+            return res.status(401).json({ message: 'Expired or invalid token' });
         }
         req.id = user[0].id;
         req.admin = user[0].admin;
