@@ -1,12 +1,11 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { NextFunction, Request, Response } from 'express';
-import IResponseError from '../interfaces/IResponseError';
-import loginRouter from '../routers/Login';
+import IResponseError from './interfaces/IResponseError';
+import loginRouter from './routers/Login';
 
 const port = process.env.PORT;
 const app = express();
-
 app.use(express.json());
 
 app.use('/', loginRouter);
