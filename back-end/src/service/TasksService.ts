@@ -17,9 +17,18 @@ export default {
         return;
     },
 
+    async verifyPermission(admin: number, {userId, taskId}: ITask): Promise<boolean> {
+        if (admin === 1) return true;
+        const [verifyTask] = await tasksModel.getById(taskId as number);
+        if (verifyTask.user_id === userId) return true;
+        return false; 
+
+    },
+
     async editTaskStatus({admin, userId}: IRequestWithAdmin, {taskId, taskStatus}: ITask) {
-        const [task] = await tasksModel.getById(taskId as number);
-        if (admin !== 1 && task.user_id !== userId) throw errorObject(403, 'Você não pode modificar o status desta tarefa');
+        const verifyPermission = await this.verifyPermission(admin as number, {userId, taskId});
+        if (!verifyPermission) throw errorObject(403, 'Você não tem permissão para modificar o status desta tarefa');
         await tasksModel.editTaskStatus(taskId as number, taskStatus as string);
+        return;
     },
 };
