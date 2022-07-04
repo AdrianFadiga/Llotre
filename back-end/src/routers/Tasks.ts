@@ -9,5 +9,7 @@ router.get('/', validateJWT, tasksController.getByUserId);
 
 router.post('/', validateJWT, middlewares.validateTask, tasksController.addNewTask);
 
+router.put('/', validateJWT, middlewares.validateEditTaskStatus, tasksController.editTaskStatus);
+
 export default router;
 

@@ -2,7 +2,7 @@ import { Request } from 'express';
 
 interface IRequestWithAdmin extends Request {
     admin?: number
-    id?: number
+    userId?: number
     email?: string
 }
 

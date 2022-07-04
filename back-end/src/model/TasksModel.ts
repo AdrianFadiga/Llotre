@@ -8,8 +8,21 @@ export default {
         return tasks; 
     },
 
+    async getById(id: number): Promise<ITask[]> {
+        const query = 'SELECT * from Tasks where id=?';
+        const [task] = await connection.execute(query, [id]);
+        return task as ITask[];
+    },
+
     async addNewTask({userId, title, task}: ITask) {
         const query = 'INSERT INTO Tasks (user_id, title, task) values (?, ?, ?)';
         await connection.execute(query, [userId, title, task]);
+        return;
+    },
+
+    async editTaskStatus(taskId: number, taskStatus: string) {
+        const query = 'UPDATE Tasks SET task_status=? WHERE id=?';
+        await connection.execute(query, [taskStatus, taskId]);
+        return;
     }
 };

@@ -15,6 +15,7 @@ const validateToken = async (req: IRequestWithAdmin, res: Response, next: NextFu
         const payload = jwt.verify(token, secret as string) as JwtPayload;
         req.email = payload.email;
         req.admin = payload.admin;
+        req.userId = payload.id;
         next();
     } catch (err) {
         return res.status(401).json({ message: 'Expired or invalid token' });
