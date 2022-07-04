@@ -1,24 +1,31 @@
-const jwt = require('jsonwebtoken');
-const { User } = require('../models');
-require('dotenv');
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import { NextFunction, Response } from 'express';
+import userModel from '../model/UserModel';
+import IRequestWithAdmin from '../interfaces/IRequestWithAdmin';
+dotenv.config();
 
-const secret = process.env.JWT_SECRET;
+const secret: string | undefined = process.env.JWT_SECRET;
 
-module.exports = async (req, res, next) => {
+const validateToken = async (req: IRequestWithAdmin, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
     if (!token) {
         return res.status(401).json({ message: 'Token not found' });
     }
     try {
-        const decoded = jwt.verify(token, secret);
-        await User.findOne({ where: { email: decoded.data } });
-        const email = await User.findOne({ where: { email: decoded.data } });
-        if (!email) {
-            return res.status(401).json({ message: 'Expired or invalid token' });
+        const decoded = jwt.verify(token, secret as string) as JwtPayload;
+        const user = await userModel.getByEmail(decoded.data);
+        if (!user.length) {
+            // Coloquei esta mensagem de erro para verificar o token;
+            // Retornar com a mensagem de erro do catch após o desenvolvimento do projeto;
+            return res.status(401).json({ message: 'User not found' });
         }
-        req.userId = email.id;
+        req.id = user[0].id;
+        req.admin = user[0].admin;
         next();
     } catch (err) {
         return res.status(401).json({ message: 'Expired or invalid token' });
     }
 };
+
+export default validateToken;
