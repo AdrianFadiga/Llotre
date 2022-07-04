@@ -11,5 +11,17 @@ export default {
         } catch(err) {
             next(err);
         }
+    },
+
+    async addNewTask(req: IRequestWithAdmin, res: Response, next: NextFunction) {
+        try {
+            const { admin } = req;
+            const { userId, title, task } = req.body;
+            await tasksService.addNewTask(admin, {userId, title, task});
+            return res.status(201).send();
+            
+        } catch(err) {
+            next(err);
+        }
     }
 };

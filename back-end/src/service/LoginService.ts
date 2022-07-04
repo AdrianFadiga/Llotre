@@ -12,7 +12,7 @@ export default {
     async userLogin (email: string, password: string) {
         const user = await loginModel.userLogin(email, password);
         if (!user.length) throw errorObject(401, 'Email ou senha inválidos');
-        const token = jwt.sign({data: email}, secret as string, jwtConfig);
+        const token = jwt.sign({email, admin: user[0].admin}, secret as string, jwtConfig);
         return token;
     }
 };
