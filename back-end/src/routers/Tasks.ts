@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', validateJWT, tasksController.getUserTasks);
 
-router.get('/:id', validateJWT, tasksController.getByUserId);
+router.get('/:userId', validateJWT, tasksController.getByUserId);
 
 router.post('/', validateJWT, middlewares.validateTask, tasksController.addNewTask);
 

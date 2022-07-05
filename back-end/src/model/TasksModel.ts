@@ -1,20 +1,20 @@
-import ITask from '../interfaces/ITask';
+import Task from '../types/Task';
 import connection from './connection';
 
 export default {
-    async getUserTasks(id: number) {
+    async getUserTasks(id: number | string) {
         const query = 'SELECT title, task, createdAt, task_status FROM Tasks WHERE user_id=?';
         const [tasks] = await connection.execute(query, [id]);
         return tasks; 
     },
 
-    async getById(id: number): Promise<ITask[]> {
+    async getById(id: number): Promise<Task[]> {
         const query = 'SELECT * from Tasks where id=?';
         const [task] = await connection.execute(query, [id]);
-        return task as ITask[];
+        return task as Task[];
     },
 
-    async addNewTask({userId, title, task}: ITask) {
+    async addNewTask({userId, title, task}: Task) {
         const query = 'INSERT INTO Tasks (user_id, title, task) values (?, ?, ?)';
         await connection.execute(query, [userId, title, task]);
         return;
@@ -26,7 +26,7 @@ export default {
         return;
     },
 
-    async deleteTask(taskId: number) {
+    async deleteTask(taskId: string) {
         const query = 'DELETE FROM Tasks WHERE id=?';
         await connection.execute(query, [taskId]);
         return;

@@ -1,10 +1,10 @@
 type Task = {
-    id?: number;
-    user_id?: number;
+    taskId?: number;
+    userId?: number;
     title?: string;
     task?: string;
     createdAt?: Date;
-    task_status?: string;
+    taskStatus?: string;
 }
 
 export default Task;
