@@ -2,10 +2,10 @@ import Task from '../types/Task';
 import connection from './connection';
 
 export default {
-    async getUserTasks(id: number | string) {
-        const query = 'SELECT title, task, createdAt, task_status FROM Tasks WHERE user_id=?';
+    async getUserTasks(id: number | string): Promise<Task[]> {
+        const query = 'SELECT title, task, createdAt, task_status as taskStatus FROM Tasks WHERE user_id=?';
         const [tasks] = await connection.execute(query, [id]);
-        return tasks; 
+        return tasks as Task[]; 
     },
 
     async getById(id: number): Promise<Task[]> {

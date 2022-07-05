@@ -7,7 +7,7 @@ import User from '../types/User';
 export default {
     async getUserTasks(req: IRequestWithAdmin, res: Response, next: NextFunction) {
         try {
-            const { userId } = req;
+            const { userId } = req.payload;
             const tasks = await tasksService.getUserTasks(userId as number);
             return res.status(200).json(tasks);
         } catch(err) {
@@ -17,7 +17,7 @@ export default {
 
     async getByUserId(req: IRequestWithAdmin, res: Response, next: NextFunction) {
         try {
-            const {admin} = req;
+            const {admin} = req.payload;
             const {userId} = req.params;
             const tasks = await tasksService.getByUserId(admin as number, userId);
             return res.status(200).json(tasks);
@@ -28,7 +28,7 @@ export default {
 
     async addNewTask(req: IRequestWithAdmin, res: Response, next: NextFunction) {
         try {
-            const { admin } = req;
+            const { admin } = req.payload;
             const { userId, title, task } = req.body;
             await tasksService.addNewTask(admin as number, {userId, title, task});
             return res.status(201).send();            
@@ -39,7 +39,7 @@ export default {
 
     async editTaskStatus(req: IRequestWithAdmin, res: Response, next: NextFunction) {
         try {
-            const {admin, userId} = req;
+            const {admin, userId} = req.payload;
             const {taskId, taskStatus} = req.body; 
             await tasksService.editTaskStatus({admin, userId} as User, {taskId, taskStatus} as Task);
             return res.status(204).send();
@@ -50,7 +50,7 @@ export default {
 
     async deleteTask(req: IRequestWithAdmin, res: Response, next: NextFunction) {
         try {
-            const {admin} = req;
+            const {admin} = req.payload;
             const {taskId} = req.params;
             await tasksService.deleteTask(admin as number, taskId);
             return res.status(204).send();
